@@ -6,7 +6,7 @@ use App\Entity\Impl\BaseEntity;
 use App\Entity\Trait\IdentificationTrait;
 use App\Repository\FollowRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Query\Expr\Base;
+
 
 #[ORM\Entity(repositoryClass: FollowRepository::class)]
 #[ORM\UniqueConstraint(name: 'unique_user_follow', fields: ['follower', 'target'])]

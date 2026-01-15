@@ -90,12 +90,26 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'target', orphanRemoval: true)]
     private Collection $followers;
 
+    /**
+     * @var Collection<int, UserBlock>
+     */
+    #[ORM\OneToMany(targetEntity: UserBlock::class, mappedBy: 'blocker', orphanRemoval: true)]
+    private Collection $blocking;
+
+    /**
+     * @var Collection<int, UserBlock>
+     */
+    #[ORM\OneToMany(targetEntity: UserBlock::class, mappedBy: 'blocked', orphanRemoval: true)]
+    private Collection $blockedBy;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->interactions = new ArrayCollection();
         $this->follows = new ArrayCollection();
         $this->followers = new ArrayCollection();
+        $this->blocking = new ArrayCollection();
+        $this->blockedBy = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -396,6 +410,66 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
             // set the owning side to null (unless already changed)
             if ($follower->getTarget() === $this) {
                 $follower->setTarget(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserBlock>
+     */
+    public function getBlocking(): Collection
+    {
+        return $this->blocking;
+    }
+
+    public function addBlocking(UserBlock $blocking): static
+    {
+        if (!$this->blocking->contains($blocking)) {
+            $this->blocking->add($blocking);
+            $blocking->setBlocker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlocking(UserBlock $blocking): static
+    {
+        if ($this->blocking->removeElement($blocking)) {
+            // set the owning side to null (unless already changed)
+            if ($blocking->getBlocker() === $this) {
+                $blocking->setBlocker(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserBlock>
+     */
+    public function getBlockedBy(): Collection
+    {
+        return $this->blockedBy;
+    }
+
+    public function addBlockedBy(UserBlock $blockedBy): static
+    {
+        if (!$this->blockedBy->contains($blockedBy)) {
+            $this->blockedBy->add($blockedBy);
+            $blockedBy->setBlocked($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlockedBy(UserBlock $blockedBy): static
+    {
+        if ($this->blockedBy->removeElement($blockedBy)) {
+            // set the owning side to null (unless already changed)
+            if ($blockedBy->getBlocked() === $this) {
+                $blockedBy->setBlocked(null);
             }
         }
 
