@@ -53,10 +53,17 @@ class Post extends BaseEntity
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'source')]
     private Collection $reposts;
 
+    /**
+     * @var Collection<int, Interaction>
+     */
+    #[ORM\OneToMany(targetEntity: Interaction::class, mappedBy: 'post', orphanRemoval: true)]
+    private Collection $interactions;
+
     public function __construct()
     {
         $this->replies = new ArrayCollection();
         $this->reposts = new ArrayCollection();
+        $this->interactions = new ArrayCollection();
     }
 
     public function getContent(): ?string
@@ -209,6 +216,36 @@ class Post extends BaseEntity
             // set the owning side to null (unless already changed)
             if ($repost->getSource() === $this) {
                 $repost->setSource(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Interaction>
+     */
+    public function getInteractions(): Collection
+    {
+        return $this->interactions;
+    }
+
+    public function addInteraction(Interaction $interaction): static
+    {
+        if (!$this->interactions->contains($interaction)) {
+            $this->interactions->add($interaction);
+            $interaction->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInteraction(Interaction $interaction): static
+    {
+        if ($this->interactions->removeElement($interaction)) {
+            // set the owning side to null (unless already changed)
+            if ($interaction->getPost() === $this) {
+                $interaction->setPost(null);
             }
         }
 
