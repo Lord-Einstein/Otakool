@@ -138,6 +138,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'receiver', orphanRemoval: true)]
     private Collection $notifications;
 
+    /**
+     * @var Collection<int, UserBadge>
+     */
+    #[ORM\OneToMany(targetEntity: UserBadge::class, mappedBy: 'owner', orphanRemoval: true)]
+    private Collection $userBadges;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -152,6 +158,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->sentInvitations = new ArrayCollection();
         $this->receivedInvitations = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->userBadges = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -692,6 +699,36 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
             // set the owning side to null (unless already changed)
             if ($notification->getReceiver() === $this) {
                 $notification->setReceiver(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserBadge>
+     */
+    public function getUserBadges(): Collection
+    {
+        return $this->userBadges;
+    }
+
+    public function addUserBadge(UserBadge $userBadge): static
+    {
+        if (!$this->userBadges->contains($userBadge)) {
+            $this->userBadges->add($userBadge);
+            $userBadge->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserBadge(UserBadge $userBadge): static
+    {
+        if ($this->userBadges->removeElement($userBadge)) {
+            // set the owning side to null (unless already changed)
+            if ($userBadge->getOwner() === $this) {
+                $userBadge->setOwner(null);
             }
         }
 
