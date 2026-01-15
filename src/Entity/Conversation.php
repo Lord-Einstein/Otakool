@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: ConversationRepository::class)]
-#[HasLifecycleCallbacks]
+#[ORM\HasLifecycleCallbacks]
 class Conversation extends BaseEntity
 {
     use IdentificationTrait;

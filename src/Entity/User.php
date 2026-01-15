@@ -120,6 +120,18 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'author', orphanRemoval: true)]
     private Collection $messages;
 
+    /**
+     * @var Collection<int, Invitation>
+     */
+    #[ORM\OneToMany(targetEntity: Invitation::class, mappedBy: 'sender', orphanRemoval: true)]
+    private Collection $sentInvitations;
+
+    /**
+     * @var Collection<int, Invitation>
+     */
+    #[ORM\OneToMany(targetEntity: Invitation::class, mappedBy: 'recipient', orphanRemoval: true)]
+    private Collection $receivedInvitations;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -131,6 +143,8 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->moderationVotes = new ArrayCollection();
         $this->conversationParticipants = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->sentInvitations = new ArrayCollection();
+        $this->receivedInvitations = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -581,6 +595,66 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
             // set the owning side to null (unless already changed)
             if ($message->getAuthor() === $this) {
                 $message->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Invitation>
+     */
+    public function getSentInvitations(): Collection
+    {
+        return $this->sentInvitations;
+    }
+
+    public function addSentInvitation(Invitation $sentInvitation): static
+    {
+        if (!$this->sentInvitations->contains($sentInvitation)) {
+            $this->sentInvitations->add($sentInvitation);
+            $sentInvitation->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSentInvitation(Invitation $sentInvitation): static
+    {
+        if ($this->sentInvitations->removeElement($sentInvitation)) {
+            // set the owning side to null (unless already changed)
+            if ($sentInvitation->getSender() === $this) {
+                $sentInvitation->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Invitation>
+     */
+    public function getReceivedInvitations(): Collection
+    {
+        return $this->receivedInvitations;
+    }
+
+    public function addReceivedInvitation(Invitation $receivedInvitation): static
+    {
+        if (!$this->receivedInvitations->contains($receivedInvitation)) {
+            $this->receivedInvitations->add($receivedInvitation);
+            $receivedInvitation->setRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceivedInvitation(Invitation $receivedInvitation): static
+    {
+        if ($this->receivedInvitations->removeElement($receivedInvitation)) {
+            // set the owning side to null (unless already changed)
+            if ($receivedInvitation->getRecipient() === $this) {
+                $receivedInvitation->setRecipient(null);
             }
         }
 

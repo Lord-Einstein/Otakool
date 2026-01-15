@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-#[HasLifeCycleCallbacks]
+#[ORM\HasLifeCycleCallbacks]
 
 class Message extends BaseEntity
 {
