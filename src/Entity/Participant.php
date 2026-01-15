@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Impl\BaseEntity;
 use App\Entity\Trait\IdentificationTrait;
 use App\Repository\ParticipantRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
@@ -24,7 +25,7 @@ class Participant extends BaseEntity
     private ?Conversation $conversation = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTime $lastReadAt = null;
+    private ?DateTime $lastReadAt = null;
 
     public function getParticipant(): ?User
     {
@@ -50,12 +51,12 @@ class Participant extends BaseEntity
         return $this;
     }
 
-    public function getLastReadAt(): ?\DateTime
+    public function getLastReadAt(): ?DateTime
     {
         return $this->lastReadAt;
     }
 
-    public function setLastReadAt(?\DateTime $lastReadAt): static
+    public function setLastReadAt(?DateTime $lastReadAt): static
     {
         $this->lastReadAt = $lastReadAt;
 

@@ -25,8 +25,8 @@ class Post extends BaseEntity
     #[ORM\Column(options: ["default" => 0])]
     private int $viewCount = 0;
 
-    #[ORM\Column(length: 50, options: ["default" => 'published'])]
-    private string $status = 'published';
+    #[ORM\Column(length: 50, options: ["default" => 'PUBLIC'])]
+    private string $status = 'PUBLIC';
 
     #[ORM\Column(options: ["default" => '{}' ])]
     private array $metadata = [];

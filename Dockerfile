@@ -34,6 +34,9 @@ COPY --link \
 	--from=ghcr.io/symfony-cli/symfony-cli:latest \
 	/usr/local/bin/symfony /usr/local/bin/symfony
 
+#Resolve git warning on /app access
+RUN git config --global --add safe.directory /app
+
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 

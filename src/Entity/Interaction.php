@@ -6,10 +6,9 @@ use App\Entity\Impl\BaseEntity;
 use App\Entity\Trait\IdentificationTrait;
 use App\Repository\InteractionRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Query\Expr\Base;
 
 #[ORM\HasLifecycleCallbacks]
-// REndre unique la combinaison de chaque lignes contenant ces deux champs
+// REndre unique la combinaison de chaque ligne contenant ces deux champs
 #[ORM\UniqueConstraint(name: 'unique_interaction_per_user', fields: ['post', 'author', 'type'])]
 #[ORM\Entity(repositoryClass: InteractionRepository::class)]
 class Interaction extends BaseEntity
