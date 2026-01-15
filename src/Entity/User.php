@@ -132,6 +132,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(targetEntity: Invitation::class, mappedBy: 'recipient', orphanRemoval: true)]
     private Collection $receivedInvitations;
 
+    /**
+     * @var Collection<int, Notification>
+     */
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'receiver', orphanRemoval: true)]
+    private Collection $notifications;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -145,6 +151,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->messages = new ArrayCollection();
         $this->sentInvitations = new ArrayCollection();
         $this->receivedInvitations = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -655,6 +662,36 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
             // set the owning side to null (unless already changed)
             if ($receivedInvitation->getRecipient() === $this) {
                 $receivedInvitation->setRecipient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setReceiver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getReceiver() === $this) {
+                $notification->setReceiver(null);
             }
         }
 
