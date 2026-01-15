@@ -59,11 +59,18 @@ class Post extends BaseEntity
     #[ORM\OneToMany(targetEntity: Interaction::class, mappedBy: 'post', orphanRemoval: true)]
     private Collection $interactions;
 
+    /**
+     * @var Collection<int, ModerationVote>
+     */
+    #[ORM\OneToMany(targetEntity: ModerationVote::class, mappedBy: 'post', orphanRemoval: true)]
+    private Collection $moderationVotes;
+
     public function __construct()
     {
         $this->replies = new ArrayCollection();
         $this->reposts = new ArrayCollection();
         $this->interactions = new ArrayCollection();
+        $this->moderationVotes = new ArrayCollection();
     }
 
     public function getContent(): ?string
@@ -246,6 +253,36 @@ class Post extends BaseEntity
             // set the owning side to null (unless already changed)
             if ($interaction->getPost() === $this) {
                 $interaction->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ModerationVote>
+     */
+    public function getModerationVotes(): Collection
+    {
+        return $this->moderationVotes;
+    }
+
+    public function addModerationVote(ModerationVote $moderationVote): static
+    {
+        if (!$this->moderationVotes->contains($moderationVote)) {
+            $this->moderationVotes->add($moderationVote);
+            $moderationVote->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModerationVote(ModerationVote $moderationVote): static
+    {
+        if ($this->moderationVotes->removeElement($moderationVote)) {
+            // set the owning side to null (unless already changed)
+            if ($moderationVote->getPost() === $this) {
+                $moderationVote->setPost(null);
             }
         }
 

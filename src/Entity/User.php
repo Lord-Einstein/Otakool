@@ -102,6 +102,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(targetEntity: UserBlock::class, mappedBy: 'blocked', orphanRemoval: true)]
     private Collection $blockedBy;
 
+    /**
+     * @var Collection<int, ModerationVote>
+     */
+    #[ORM\OneToMany(targetEntity: ModerationVote::class, mappedBy: 'reporter', orphanRemoval: true)]
+    private Collection $moderationVotes;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -110,6 +116,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->followers = new ArrayCollection();
         $this->blocking = new ArrayCollection();
         $this->blockedBy = new ArrayCollection();
+        $this->moderationVotes = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -470,6 +477,36 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
             // set the owning side to null (unless already changed)
             if ($blockedBy->getBlocked() === $this) {
                 $blockedBy->setBlocked(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ModerationVote>
+     */
+    public function getModerationVotes(): Collection
+    {
+        return $this->moderationVotes;
+    }
+
+    public function addModerationVote(ModerationVote $moderationVote): static
+    {
+        if (!$this->moderationVotes->contains($moderationVote)) {
+            $this->moderationVotes->add($moderationVote);
+            $moderationVote->setReporter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModerationVote(ModerationVote $moderationVote): static
+    {
+        if ($this->moderationVotes->removeElement($moderationVote)) {
+            // set the owning side to null (unless already changed)
+            if ($moderationVote->getReporter() === $this) {
+                $moderationVote->setReporter(null);
             }
         }
 
