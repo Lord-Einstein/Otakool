@@ -108,6 +108,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(targetEntity: ModerationVote::class, mappedBy: 'reporter', orphanRemoval: true)]
     private Collection $moderationVotes;
 
+    /**
+     * @var Collection<int, Participant>
+     */
+    #[ORM\OneToMany(targetEntity: Participant::class, mappedBy: 'participant', orphanRemoval: true)]
+    private Collection $conversationParticipants;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -117,6 +123,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->blocking = new ArrayCollection();
         $this->blockedBy = new ArrayCollection();
         $this->moderationVotes = new ArrayCollection();
+        $this->conversationParticipants = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -507,6 +514,36 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
             // set the owning side to null (unless already changed)
             if ($moderationVote->getReporter() === $this) {
                 $moderationVote->setReporter(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getConversationParticipants(): Collection
+    {
+        return $this->conversationParticipants;
+    }
+
+    public function addConversationParticipant(Participant $conversationParticipant): static
+    {
+        if (!$this->conversationParticipants->contains($conversationParticipant)) {
+            $this->conversationParticipants->add($conversationParticipant);
+            $conversationParticipant->setParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversationParticipant(Participant $conversationParticipant): static
+    {
+        if ($this->conversationParticipants->removeElement($conversationParticipant)) {
+            // set the owning side to null (unless already changed)
+            if ($conversationParticipant->getParticipant() === $this) {
+                $conversationParticipant->setParticipant(null);
             }
         }
 
