@@ -2,28 +2,34 @@
 
 namespace App\Entity\Impl;
 
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
 
+// MappedSuperclass pour indiquer à Doctrine que cette classe est héritable par toutes les autres"
+#[ORM\MappedSuperclass]
+// HasLifecycleCallbacks pour dire à Doctrine d'activer l'écoute sur des événements comme PrePersist"
+#[ORM\HasLifecycleCallbacks]
 abstract class BaseEntity
 {
-    #[ORM\Column(name: 'created_date', type: Types::DATETIME_MUTABLE, nullable: false, options: ['default' => "CURRENT_TIMESTAMP"])]
-    protected \DateTime $createdDate;
+    //, options: ['default' => "CURRENT_TIMESTAMP"] --- Tests sans le default et avec le Prepersist.
+    #[ORM\Column(name: 'created_date', type: Types::DATETIME_MUTABLE, nullable: false)]
+    protected DateTime $createdDate;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    protected User $createdBy;
+    #[ORM\JoinColumn(nullable: true)]
+    protected ?User $createdBy = null;
 
     #[ORM\Column(name: 'updated_date', type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected null|\DateTime $updatedDate;
+    protected null|DateTime $updatedDate;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
     protected null|User $updatedBy;
 
     #[ORM\Column(name: 'deleted_date', type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected null|\DateTime $deletedDate;
+    protected null|DateTime $deletedDate;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
@@ -32,11 +38,37 @@ abstract class BaseEntity
     #[ORM\Column(name: 'is_deleted', type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
     protected bool $isDeleted = false;
 
-    public function getCreatedDate(): \DateTime {
+    #[ORM\PrePersist]
+    public function setCreatedDateValue(): void {
+        if(!isset($this->createdDate)) {
+            $this->createdDate = new DateTime();
+        }
+        //Je profite de la méthode pour rajouter une vérif sur le delete flag
+        if(!isset($this->isDeleted)) {
+            $this->isDeleted = false;
+        }
+    }
+
+    //Automatiser la mise à jour de la date après une modif
+    #[ORM\PreUpdate]
+    public function setUpdatedDateValue(): void {
+        $this->updatedDate = new DateTime();
+    }
+
+    //Pas de PreDelete possible car je fais du softDelete donc fonction custom pour gérer les Dates sur la suppression
+    public function softDelete(?User $user = null): self {
+        $this->isDeleted = true;
+        $this->deletedDate = new DateTime();
+        $this->deletedBy = $user;
+
+        return $this;
+    }
+
+    public function getCreatedDate(): DateTime {
         return $this->createdDate;
     }
 
-    public function setCreatedDate(\DateTime $createdDate): self {
+    public function setCreatedDate(DateTime $createdDate): self {
         $this->createdDate = $createdDate;
 
         return $this;
@@ -52,11 +84,11 @@ abstract class BaseEntity
         return $this;
     }
 
-    public function getUpdatedDate(): ?\DateTime {
+    public function getUpdatedDate(): ?DateTime {
         return $this->updatedDate;
     }
 
-    public function setUpdatedDate(?\DateTime $updatedDate): self {
+    public function setUpdatedDate(?DateTime $updatedDate): self {
         $this->updatedDate = $updatedDate;
 
         return $this;
@@ -72,11 +104,11 @@ abstract class BaseEntity
         return $this;
     }
 
-    public function getDeletedDate(): ?\DateTime {
+    public function getDeletedDate(): ?DateTime {
         return $this->deletedDate;
     }
 
-    public function setDeletedDate(?\DateTime $deletedDate): self {
+    public function setDeletedDate(?DateTime $deletedDate): self {
         $this->deletedDate = $deletedDate;
 
         return $this;
