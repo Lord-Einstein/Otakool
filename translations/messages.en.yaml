@@ -1,3 +1,33 @@
+# --- GLOBAL ---
 app.name: OTAKOOL
-action.login: CONTINUE
-action.register: PRESS START
+app.slogan: "Welcome to the Nexus."
+
+# --- NAVIGATION ---
+nav.home: HQ
+nav.login: LOG IN
+nav.register: TAKE OATH
+nav.logout: GAME OVER
+nav.profile: My Char
+
+# --- LOGIN PAGE ---
+login.title: NEXUS ACCESS
+login.subtitle: "Resume your adventure where you left off."
+login.email: Neural ID
+login.password: Secret Seal
+login.remember_me: Keep neural link active
+login.submit: INITIALIZE LINK
+login.forgot_pass: Broken Seal?
+login.new_here: "New Challenger?"
+
+# --- REGISTER PAGE ---
+register.title: AVATAR CREATION
+register.subtitle: "Join the alliance and start your legend."
+register.username: Codename
+register.email: Contact Frequency
+register.password: Set Seal
+register.agree_terms: "I accept the Summoning Pact"
+register.submit: START ADVENTURE
+
+# --- FLASH MESSAGES ---
+flash.success: "Critical Hit!"
+flash.error: "Mission Failed..."
