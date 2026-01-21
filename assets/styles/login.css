@@ -2,11 +2,10 @@
 
 /* 1. Fond Global (Aurora Purple) */
 body {
-    background: #050505; /* Noir profond */
+    /* Noir profond */
     /* On simule ton image de fond violette avec un gradient radial */
-    background-image:
-        radial-gradient(circle at 80% 90%, rgba(120, 50, 255, 0.25) 0%, transparent 50%),
-        radial-gradient(circle at 90% 10%, rgba(0, 255, 255, 0.15) 0%, transparent 40%);
+    background: #050505 radial-gradient(circle at 80% 90%, rgba(120, 50, 255, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 90% 10%, rgba(0, 255, 255, 0.15) 0%, transparent 40%);
     overflow-x: hidden;
 }
 
@@ -61,8 +60,8 @@ body {
 /* 5. Animation Icône qui danse */
 @keyframes shake-icon {
     0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-15deg) scale(2); color: #00f2ff; }
-    75% { transform: rotate(15deg) scale(2); color: #d946ef; }
+    25% { transform: rotate(-15deg) scale(1.2); color: #00f2ff; }
+    75% { transform: rotate(15deg) scale(1.2); color: #d946ef; }
 }
 
 .icon-dancing {
