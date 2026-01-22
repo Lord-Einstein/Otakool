@@ -1,88 +1,668 @@
-/* public/css/login-custom.css */
+/* ===================================
+   OTAKOOL - LOGIN PAGE STYLES
+   Style Zelda épuré et raffiné
+   =================================== */
 
-/* 1. Fond Global (Aurora Purple) */
-body {
-    /* Noir profond */
-    /* On simule ton image de fond violette avec un gradient radial */
-    background: #050505 radial-gradient(circle at 80% 90%, rgba(120, 50, 255, 0.25) 0%, transparent 50%),
-    radial-gradient(circle at 90% 10%, rgba(0, 255, 255, 0.15) 0%, transparent 40%);
-    overflow-x: hidden;
-}
-
-/* 2. La Ligne de Séparation "Laser" (Ton image bleue) */
-.laser-line {
-    height: 2px;
+/* === CONTAINER & LAYOUT === */
+.login-container {
+    min-height: 100vh;
     width: 100%;
-    margin: 20px 0;
-    background: linear-gradient(90deg, transparent 0%, #00f2ff 50%, transparent 100%);
-    box-shadow: 0 0 15px #00f2ff, 0 0 30px #00f2ff;
-    border-radius: 100%;
-    opacity: 0.8;
-}
-
-/* 3. Input "Glow" (Bords lumineux) */
-.input-otakool {
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-}
-
-.input-otakool:focus {
-    border-color: #d946ef; /* Rose fuchsia */
-    box-shadow:
-        0 0 10px rgba(217, 70, 239, 0.5),
-        inset 0 0 10px rgba(217, 70, 239, 0.2);
-    transform: scale(1.01);
-}
-
-/* 4. Bouton "Flame" (Ton image x32) */
-.btn-flame {
-    background: linear-gradient(45deg, #4f46e5, #9333ea); /* Bleu vers Violet */
+    display: flex;
     position: relative;
-    z-index: 1;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow:
-        0 4px 15px rgba(147, 51, 234, 0.6), /* Ombre violette */
-        0 0 20px rgba(79, 70, 229, 0.4);    /* Lueur bleue */
-    transition: all 0.3s ease;
+    background: radial-gradient(ellipse at top left, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at center, rgba(217, 70, 239, 0.08) 0%, transparent 7%),
+    #050505;
 }
 
-/* L'effet de flamme intérieur au survol */
-.btn-flame:hover {
-    transform: translateY(-2px);
-    box-shadow:
-        0 6px 25px rgba(147, 51, 234, 0.8),
-        0 0 40px rgba(255, 0, 255, 0.6),    /* Néon rose fort */
-        inset 0 0 20px rgba(255, 255, 255, 0.2);
+/* === IMAGE SECTION (Desktop) === */
+.login-image-section {
+    display: none;
+    width: 50%;
+    height: 100vh;
+    position: relative;
+    background: #000;
 }
 
-/* 5. Animation Icône qui danse */
-@keyframes shake-icon {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-15deg) scale(1.2); color: #00f2ff; }
-    75% { transform: rotate(15deg) scale(1.2); color: #d946ef; }
+.login-bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: .9;
 }
 
-.icon-dancing {
-    animation: shake-icon 0.4s ease-in-out;
+.image-overlay-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 0%, transparent 40%, rgba(5, 5, 5, 0.3) 70%, rgba(5, 5, 5, 0.8) 80%, #050505 100%),
+    linear-gradient(to top, rgba(5, 5, 5, 0.6) 0%, transparent 30%);
 }
 
-/* 6. Texte Dynamique (Transition) */
-.dynamic-text {
-    background: linear-gradient(90deg, #00f2ff, #d946ef);
+@media (min-width: 768px) {
+    .login-image-section {
+        display: block;
+    }
+}
+
+/* === FORM SECTION === */
+.login-form-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+@media (min-width: 768px) {
+    .login-form-section {
+        width: 50%;
+    }
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    z-index: 20;
+}
+
+.form-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -60px;
+    background: radial-gradient(circle at center, rgba(147, 51, 234, 0.2) 0%, rgba(168, 85, 247, 0.1) 40%, transparent 90%);
+    filter: blur(80px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* === HEADER === */
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.brand-title {
+    font-family: var(--font-gaming);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #fff 0%, #d946ef 50%, #00f2ff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease;
-    display: inline-block;
+    background-clip: text;
+    animation: titleShine 3s ease-in-out infinite;
 }
 
-.fade-out {
+@keyframes titleShine {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+}
+
+.subtitle-container {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dynamic-subtitle {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.dynamic-subtitle.fade-out {
     opacity: 0;
     transform: translateY(10px);
 }
 
-.fade-in {
+.dynamic-subtitle.fade-in {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* === LASER DIVIDER === */
+.laser-divider {
+    height: 2px;
+    width: 100%;
+    margin: 1.5rem 0;
+    background: linear-gradient(90deg, transparent 0%, var(--neon-cyan) 50%, transparent 100%);
+    box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan);
+    border-radius: 100%;
+    opacity: 0.8;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* === ERROR ALERT === */
+.error-alert {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 4px solid #ef4444;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #fca5a5;
+    font-size: 0.875rem;
+    backdrop-filter: blur(10px);
+}
+
+.pulse-icon {
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* === FORM === */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* === INPUT GROUP === */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary-dark);
+    margin-left: 0.25rem;
+    letter-spacing: 0.05em;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.glass-input {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    transition: all 0.3s ease;
+}
+
+.glass-input:focus-within {
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 20px rgba(217, 70, 239, 0.4),
+    inset 0 0 20px rgba(217, 70, 239, 0.1);
+    transform: translateY(-2px);
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    display: flex;
+    align-items: center;
+    color: #6b7280;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.glass-input:focus-within .input-icon {
+    color: var(--neon-purple);
+    transform: scale(1.1);
+}
+
+.form-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1rem;
+    z-index: 5;
+}
+
+.form-input::placeholder {
+    color: #4b5563;
+}
+
+/* === TOGGLE PASSWORD === */
+.toggle-password {
+    position: absolute;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 20;
+    padding: 0.5rem;
+}
+
+.toggle-password:hover {
+    color: white;
+    transform: scale(1.15);
+}
+
+.mythic-eye {
+    font-size: 1.25rem;
+    filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.6));
+    transition: all 0.4s ease;
+}
+
+.mythic-eye.eye-open {
+    animation: eyePulse 0.6s ease-in-out;
+    color: var(--neon-cyan);
+}
+
+.mythic-eye.eye-closed {
+    animation: eyeBlink 0.4s ease-in-out;
+    color: var(--neon-purple);
+}
+
+@keyframes eyePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3) rotate(10deg); }
+}
+
+@keyframes eyeBlink {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(0.8) rotate(-10deg); }
+}
+
+.icon-dancing {
+    animation: iconDance 0.4s ease-in-out;
+}
+
+@keyframes iconDance {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-15deg) scale(1.3); color: var(--neon-cyan); }
+    75% { transform: rotate(15deg) scale(1.3); color: var(--neon-purple); }
+}
+
+/* === FORM OPTIONS === */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* === CUSTOM CHECKBOX MYTHIQUE === */
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.custom-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-custom {
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.375rem;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.checkbox-icon {
+    font-size: 1.2rem;
+    color: #fbbf24;
+    opacity: 0;
+    transform: scale(0) translateY(20px);
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.8));
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkbox-custom {
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(147, 51, 234, 0.3));
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 20px rgba(217, 70, 239, 0.5),
+    inset 0 0 15px rgba(168, 85, 247, 0.3);
+    animation: checkboxMagic 0.6s ease;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkbox-custom .checkbox-icon {
+    opacity: 1;
+    transform: scale(1.3) translateY(0) rotate(10deg);
+    animation: handsPop 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+@keyframes checkboxMagic {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.15) rotate(-5deg); }
+    60% { transform: scale(0.95) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes handsPop {
+    0% {
+        transform: scale(0) translateY(20px) rotate(-180deg);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.4) translateY(-5px) rotate(15deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.3) translateY(0) rotate(10deg);
+        opacity: 1;
+    }
+}
+
+.checkbox-label {
+    color: var(--color-text-tertiary-dark);
+    transition: color 0.3s ease;
+}
+
+.custom-checkbox:hover .checkbox-label {
+    color: var(--neon-purple);
+}
+
+/* === FORGOT PASSWORD LINK === */
+.forgot-link {
+    color: var(--neon-cyan);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.forgot-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--neon-cyan);
+    box-shadow: 0 0 8px var(--neon-cyan);
+    transition: width 0.3s ease;
+}
+
+.forgot-link:hover {
+    color: #67e8f9;
+}
+
+.forgot-link:hover::after {
+    width: 100%;
+}
+
+/* === SUBMIT BUTTON PORTAL PARFAIT === */
+.submit-button {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 2rem auto 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: visible;
+}
+
+/* Conteneur du portail centré */
+.portal-icon {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.portal-image {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    animation: portalRotate 4s linear infinite, portalGlow 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px rgba(147, 51, 234, 0.9))
+    drop-shadow(0 0 25px rgba(168, 85, 247, 0.7));
+    transition: all 0.4s ease;
+}
+
+@keyframes portalRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes portalGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 15px rgba(147, 51, 234, 0.9))
+        drop-shadow(0 0 25px rgba(168, 85, 247, 0.7))
+        hue-rotate(0deg);
+    }
+    25% {
+        filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.9))
+        drop-shadow(0 0 35px rgba(6, 182, 212, 0.7))
+        hue-rotate(90deg);
+    }
+    50% {
+        filter: drop-shadow(0 0 25px rgba(217, 70, 239, 0.9))
+        drop-shadow(0 0 40px rgba(232, 121, 249, 0.7))
+        hue-rotate(180deg);
+    }
+    75% {
+        filter: drop-shadow(0 0 20px rgba(79, 70, 229, 0.9))
+        drop-shadow(0 0 35px rgba(99, 102, 241, 0.7))
+        hue-rotate(270deg);
+    }
+}
+
+/* Texte du bouton */
+.button-text {
+    position: absolute;
+    left: 90px;
+    opacity: 0;
+    transform: translateX(-20px);
+    color: white;
+    font-family: var(--font-gaming);
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+    transition: opacity 0.4s ease 0.1s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+    pointer-events: none;
+    background: linear-gradient(135deg, #fff 0%, #a78bfa 50%, #00f2ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+}
+
+/* Fond du bouton qui se déploie */
+.submit-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(147, 51, 234, 0.95));
+    border-radius: 50%;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1;
+    box-shadow: 0 4px 20px rgba(147, 51, 234, 0.6),
+    0 0 40px rgba(79, 70, 229, 0.4);
+}
+
+/* État hover */
+.submit-button:hover {
+    width: 100%;
+}
+
+.submit-button:hover::before {
+    width: 100%;
+    height: 80px;
+    border-radius: 40px;
+    box-shadow: 0 8px 30px rgba(147, 51, 234, 0.8),
+    0 0 60px rgba(168, 85, 247, 0.5),
+    inset 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.submit-button:hover .portal-image {
+    transform: scale(1.1);
+}
+
+.submit-button:hover .button-text {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Effet de brillance au survol */
+.submit-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+    border-radius: inherit;
+    transition: left 0.7s ease;
+    z-index: 5;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.submit-button:hover::after {
+    left: 100%;
+    opacity: 1;
+}
+
+/* === REGISTER SECTION === */
+.register-section {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.register-text {
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+/* === RESPONSIVE - MOBILE === */
+@media (max-width: 767px) {
+    .login-container {
+        flex-direction: column;
+        position: relative;
+    }
+
+    .login-image-section {
+        display: block;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .login-bg-image {
+        opacity: 0.7;
+        filter: blur(1px);
+    }
+
+    .image-overlay-gradient {
+        background: linear-gradient(to bottom,
+        rgba(5, 5, 5, 0.4) 0%,
+        rgba(5, 5, 5, 0.5) 50%,
+        rgba(5, 5, 5, 0.65) 100%
+        );
+    }
+
+    .login-form-section {
+        width: 100%;
+        padding: 1.5rem;
+        z-index: 10;
+        position: relative;
+    }
+
+    .form-wrapper {
+        max-width: 100%;
+    }
+
+    .brand-title {
+        font-size: 2rem;
+    }
+
+    .submit-button {
+        width: 70px;
+        height: 70px;
+    }
+
+    .portal-icon {
+        width: 70px;
+        height: 70px;
+        min-width: 70px;
+    }
+
+    .portal-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .submit-button::before {
+        width: 70px;
+        height: 70px;
+    }
+
+    .button-text {
+        font-size: 1rem;
+        left: 80px;
+    }
+
+    .submit-button:hover::before {
+        height: 70px;
+        border-radius: 35px;
+    }
+
+    .register-section {
+        margin-top: 2rem;
+    }
 }

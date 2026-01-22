@@ -4,107 +4,110 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/main.css') }}">
     <link rel="stylesheet" href="{{ asset('styles/login.css') }}">
 {% endblock %}
 
 {% block body %}
-    <div class="h-screen w-full flex overflow-hidden bg-[#050505]">
+    <div class="login-container">
 
-        <div class="hidden md:flex w-1/2 h-full relative bg-black">
+        <!-- Left Side - Image (Desktop only) -->
+        <div class="login-image-section">
             <img src="{{ asset('img/login_img2.png') }}"
-                 class="absolute inset-0 w-full h-full object-cover opacity-90"
+                 class="login-bg-image"
                  alt="Manga Universe">
-            {# Remplace 'manga-collage.png' par le vrai nom de ton image collage #}
-
-            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#050505]"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
+            <div class="image-overlay-gradient"></div>
         </div>
 
-        <div class="w-full md:w-1/2 h-full flex items-center justify-center p-8 relative">
+        <!-- Right Side - Form -->
+        <div class="login-form-section">
+            <div class="form-wrapper">
 
-            <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] pointer-events-none"></div>
-
-            <div class="w-full max-w-md z-10">
-
-                <div class="text-center mb-8">
-                    <h1 class="text-5xl font-gaming font-bold text-white mb-2 tracking-wider">
-                        {{ 'app.name'|trans }}
-                    </h1>
-
-                    <div class="h-8"> <p id="dynamic-subtitle" class="text-sm font-bold tracking-[0.3em] dynamic-text fade-in">
-                            INITIALISATION DU SYSTÈME
-                        </p>
+                <!-- Header -->
+                <div class="login-header">
+                    <h1 class="brand-title">{{ 'app.name'|trans }}</h1>
+                    <div class="subtitle-container">
+                        <p id="dynamic-subtitle" class="dynamic-subtitle">INITIALISATION DU SYSTÈME</p>
                     </div>
                 </div>
 
-                <div class="laser-line"></div>
+                <div class="laser-divider"></div>
 
+                <!-- Error Alert -->
                 {% if error %}
-                    <div class="mb-6 p-4 rounded bg-red-500/10 border-l-4 border-red-500 flex items-center gap-3 text-red-200">
-                        <i class="fa-solid fa-bug animate-pulse"></i>
-                        <span class="text-sm">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                    <div class="error-alert">
+                        <i class="fa-solid fa-triangle-exclamation pulse-icon"></i>
+                        <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
                     </div>
                 {% endif %}
 
-                <form method="post" class="space-y-6 mt-8">
+                <!-- Login Form -->
+                <form method="post" class="login-form">
 
-                    <div class="group relative">
-                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1 ml-1">{{ 'login.email'|trans }}</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 transition-colors">
-                                <i class="fa-solid fa-at"></i>
+                    <!-- Email Input -->
+                    <div class="input-group">
+                        <label class="input-label">{{ 'login.email'|trans }}</label>
+                        <div class="input-wrapper glass-input">
+                            <div class="input-icon">
+                                <i class="fa-solid fa-at icon-animate"></i>
                             </div>
-                            <input type="email" value="{{ last_username }}" name="_username"
-                                   class="input-otakool block w-full pl-11 pr-4 py-4 rounded-xl text-white placeholder-gray-600 focus:outline-none w-full"
-                                   placeholder="email@otakool.com" autocomplete="email" required autofocus>
+                            <input type="email"
+                                   value="{{ last_username }}"
+                                   name="_username"
+                                   class="form-input"
+                                   placeholder="email@otakool.com"
+                                   autocomplete="email"
+                                   required
+                                   autofocus>
                         </div>
                     </div>
 
-                    <div class="group relative">
-                        <div class="flex justify-between items-center mb-1 ml-1">
-                            <label class="text-xs font-bold text-gray-400 uppercase">{{ 'login.password'|trans }}</label>
-                        </div>
-
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 transition-colors">
-                                <i class="fa-solid fa-fingerprint"></i>
+                    <!-- Password Input -->
+                    <div class="input-group">
+                        <label class="input-label">{{ 'login.password'|trans }}</label>
+                        <div class="input-wrapper glass-input">
+                            <div class="input-icon">
+                                <i class="fa-solid fa-fingerprint icon-animate"></i>
                             </div>
-                            <input type="password" name="_password" id="password"
-                                   class="input-otakool block w-full pl-11 pr-12 py-4 rounded-xl text-white placeholder-gray-600 focus:outline-none w-full"
-                                   placeholder="••••••••••••" autocomplete="current-password" required>
-
-                            <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-white cursor-pointer z-20">
-                                <i class="fa-solid fa-eye transition-transform hover:scale-110" id="eyeIcon"></i>
+                            <input type="password"
+                                   name="_password"
+                                   id="password"
+                                   class="form-input"
+                                   placeholder="••••••••••••"
+                                   autocomplete="current-password"
+                                   required>
+                            <button type="button" id="togglePassword" class="toggle-password">
+                                <i class="fa-solid fa-eye mythic-eye" id="eyeIcon"></i>
                             </button>
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between text-sm mt-4">
-                        <label class="flex items-center space-x-2 cursor-pointer group">
-                            <input type="checkbox" name="_remember_me" class="w-4 h-4 rounded bg-gray-800 border-gray-600 text-purple-600 focus:ring-purple-500">
-                            <span class="text-gray-400 group-hover:text-purple-400 transition-colors">{{ 'login.remember_me'|trans }}</span>
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="form-options">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="_remember_me" id="remember_me">
+                            <span class="checkbox-custom">
+                                <i class="fa-solid fa-hands-praying checkbox-icon"></i>
+                            </span>
+                            <span class="checkbox-label">{{ 'login.remember_me'|trans }}</span>
                         </label>
-                        <a href="#" class="text-cyan-500 hover:text-cyan-300 transition-colors duration-300">
-                            {{ 'login.forgot_pass'|trans }}
-                        </a>
+                        <a href="#" class="forgot-link">{{ 'login.forgot_pass'|trans }}</a>
                     </div>
 
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                    <button type="submit"
-                            class="btn-flame w-full py-4 mt-8 text-white font-bold rounded-xl font-gaming text-xl uppercase tracking-widest relative group">
-                        <span class="relative z-10">{{ 'login.submit'|trans }}</span>
-                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-10 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
+                    <!-- Submit Button with Portal -->
+                    <button type="submit" class="submit-button">
+                        <div class="portal-icon">
+                            <img src="{{ asset('img/portal.png') }}" alt="Portal" class="portal-image">
+                        </div>
+                        <span class="button-text">{{ 'login.submit'|trans }}</span>
                     </button>
-
                 </form>
 
-                <div class="mt-8 text-center">
-                    <p class="text-gray-500 text-sm mb-2">{{ 'login.new_here'|trans }}</p>
-{#                    <a href="{{ path('app_register') }}"#}
-{#                       class="inline-block border border-gray-700 hover:border-purple-500 rounded-lg px-6 py-2 text-sm text-gray-300 hover:text-white hover:bg-purple-900/30 transition-all duration-300">#}
-{#                        {{ 'nav.register'|trans }}#}
-{#                    </a>#}
+                <!-- Register Link -->
+                <div class="register-section">
+                    <p class="register-text">{{ 'login.new_here'|trans }}</p>
                 </div>
 
             </div>
