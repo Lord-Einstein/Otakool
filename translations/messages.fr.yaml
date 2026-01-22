@@ -1,5 +1,5 @@
 # --- GLOBAL ---
-app.name: OTAKOOL
+app.name: OTAKOOL.
 app.slogan: "Bienvenue dans le Clan des élus."
 
 # --- NAVIGATION (Menu) ---
@@ -10,7 +10,7 @@ nav.logout: GAME OVER
 nav.profile: Mon Perso
 
 # --- PAGE LOGIN (Connexion) ---
-login.title: ACCÈS AU NEXUS
+login.title: ⛩️OTAKOOL⛩️
 login.subtitle: "Reprenez votre aventure là où vous l'avez laissée."
 login.email: Filet de parchemin
 login.password: Sceau Secret

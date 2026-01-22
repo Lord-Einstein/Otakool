@@ -23,7 +23,7 @@
 
     --color-text-primary-dark: #ffffff;
     --color-text-secondary-dark: #d1d5db;
-    --color-text-tertiary-dark: #9ca3af;
+    --color-text-tertiary-dark: #b2a9a9;
 
     --color-border-dark: rgba(255, 255, 255, 0.1);
     --color-border-focus-dark: #d946ef;
@@ -50,7 +50,7 @@
 
     /* === NEON COLORS === */
     --neon-pink: #ff00ff;
-    --neon-cyan: rgba(0, 255, 255, 0.5);
+    --neon-cyan: rgb(62, 180, 180);
     --neon-purple: #bf00ff;
     --neon-blue: #0080ff;
     --neon-green: #00ff88;
@@ -97,7 +97,7 @@
     --radius-full: 9999px;
 
     /* === TYPOGRAPHY === */
-    --font-sans: 'Inter', sans-serif;
+    --font-sans: 'Macondo', sans-serif;
     --font-gaming: 'Rajdhani', sans-serif;
 
     --font-size-xs: 0.75rem;    /* 12px */

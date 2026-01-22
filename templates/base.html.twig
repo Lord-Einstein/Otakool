@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark"> {# On force le mode dark ici #}
+<html lang="fr" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Otakool{% endblock %}</title>
+    <title>{% block title %}Otakool.{% endblock %}</title>
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⛩️</text></svg>">
 
-    {# 1. POLICE GAMING (Rajdhani) #}
+    {# POLICES MYTHIQUES #}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Macondo&family=UnifrakturMaguntia&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=Creepster&display=swap" rel="stylesheet">
 
-    {# 2. TAILWIND CSS (Via CDN pour le dev) #}
+    {# TAILWIND CSS #}
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -22,24 +22,32 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         gaming: ['Rajdhani', 'sans-serif'],
+                        mythic: ['Macondo', 'cursive'],
+                        gothic: ['UnifrakturMaguntia', 'cursive'],
+                        horror: ['Creepster', 'cursive'],
                     },
                     colors: {
-                        'otakool-dark': '#0f0e17',
-                        'otakool-purple': '#ff00ff', // Neon
-                        'otakool-blue': '#00ffff',   // Cyber
+                        'otakool-dark': '#050505',
+                        'otakool-purple': '#d946ef',
+                        'otakool-cyan': '#00f2ff',
+                        'otakool-violet': '#9333ea',
                     }
                 }
             }
         }
     </script>
 
-    {# 3. FONTAWESOME (Pour les icônes cadenas/oeil) #}
+    {# FONTAWESOME #}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    {% block stylesheets %}{% endblock %}
-    {% block javascripts %}{% endblock %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('styles/main.css') }}">
+    {% endblock %}
+    {% block javascripts %}
+        <script src="{{ asset('scripts/main.js') }}"></script>
+    {% endblock %}
 </head>
-    <body class="bg-otakool-dark text-white font-sans antialiased selection:bg-pink-500 selection:text-white">
-        {% block body %}{% endblock %}
-    </body>
+<body class="bg-otakool-dark text-white font-sans antialiased selection:bg-pink-500 selection:text-white">
+{% block body %}{% endblock %}
+</body>
 </html>

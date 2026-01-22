@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'login.title'|trans }}{% endblock %}
+{% block title %}{{ 'app.name'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('styles/main.css') }}">
     <link rel="stylesheet" href="{{ asset('styles/login.css') }}">
 {% endblock %}
 
@@ -13,7 +12,7 @@
 
         <!-- Left Side - Image (Desktop only) -->
         <div class="login-image-section">
-            <img src="{{ asset('img/login_img2.png') }}"
+            <img src="{{ asset('img/login_img.png') }}"
                  class="login-bg-image"
                  alt="Manga Universe">
             <div class="image-overlay-gradient"></div>
@@ -25,9 +24,9 @@
 
                 <!-- Header -->
                 <div class="login-header">
-                    <h1 class="brand-title">{{ 'app.name'|trans }}</h1>
+                    <h1 class="brand-title">{{ 'login.title'|trans }}</h1>
                     <div class="subtitle-container">
-                        <p id="dynamic-subtitle" class="dynamic-subtitle">INITIALISATION DU SYSTÈME</p>
+                        <p id="dynamic-subtitle" class="dynamic-subtitle">INITIALISATION DU SYSTÈME...</p>
                     </div>
                 </div>
 
@@ -73,7 +72,7 @@
                                    name="_password"
                                    id="password"
                                    class="form-input"
-                                   placeholder="••••••••••••"
+                                   placeholder="∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷"
                                    autocomplete="current-password"
                                    required>
                             <button type="button" id="togglePassword" class="toggle-password">
@@ -91,7 +90,7 @@
                             </span>
                             <span class="checkbox-label">{{ 'login.remember_me'|trans }}</span>
                         </label>
-                        <a href="#" class="forgot-link">{{ 'login.forgot_pass'|trans }}</a>
+                        <a href="#" class="magic-link">{{ 'login.forgot_pass'|trans }}</a>
                     </div>
 
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -101,13 +100,27 @@
                         <div class="portal-icon">
                             <img src="{{ asset('img/portal.png') }}" alt="Portal" class="portal-image">
                         </div>
-                        <span class="button-text">{{ 'login.submit'|trans }}</span>
+                        <div class="button-text-container">
+                            <div class="letter-block"><span>T</span></div>
+                            <div class="letter-block"><span>É</span></div>
+                            <div class="letter-block"><span>L</span></div>
+                            <div class="letter-block"><span>É</span></div>
+                            <div class="letter-block"><span>P</span></div>
+                            <div class="letter-block"><span>O</span></div>
+                            <div class="letter-block"><span>R</span></div>
+                            <div class="letter-block"><span>T</span></div>
+                            <div class="letter-block"><span>A</span></div>
+                            <div class="letter-block"><span>T</span></div>
+                            <div class="letter-block"><span>I</span></div>
+                            <div class="letter-block"><span>O</span></div>
+                            <div class="letter-block"><span>N</span></div>
+                        </div>
                     </button>
                 </form>
 
                 <!-- Register Link -->
                 <div class="register-section">
-                    <p class="register-text">{{ 'login.new_here'|trans }}</p>
+                    <a href="#" class="register-text magic-link">{{ 'login.new_here'|trans }}</a>
                 </div>
 
             </div>
@@ -116,6 +129,6 @@
 
     {% block javascripts %}
         {{ parent() }}
-        <script src="{{ asset('scripts/login.js') }}"></script>
+            <script src="{{ asset('scripts/login.js') }}"></script>
     {% endblock %}
 {% endblock %}

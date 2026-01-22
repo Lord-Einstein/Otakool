@@ -8,27 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (toggleBtn && passwordInput && eyeIcon) {
         toggleBtn.addEventListener('click', (e) => {
             e.preventDefault();
-
             const isPassword = passwordInput.type === 'password';
-
-            // Toggle input type
             passwordInput.type = isPassword ? 'text' : 'password';
 
-            // Toggle icon classes with animations
             if (isPassword) {
-                // Showing password
                 eyeIcon.classList.remove('fa-eye');
                 eyeIcon.classList.add('fa-eye-slash', 'eye-open');
-                setTimeout(() => {
-                    eyeIcon.classList.remove('eye-open');
-                }, 600);
+                setTimeout(() => eyeIcon.classList.remove('eye-open'), 600);
             } else {
-                // Hiding password
                 eyeIcon.classList.remove('fa-eye-slash');
                 eyeIcon.classList.add('fa-eye', 'eye-closed');
-                setTimeout(() => {
-                    eyeIcon.classList.remove('eye-closed');
-                }, 400);
+                setTimeout(() => eyeIcon.classList.remove('eye-closed'), 400);
             }
         });
     }
@@ -38,29 +28,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     inputs.forEach(input => {
         input.addEventListener('input', function() {
-            // Find the icon in the same wrapper
             const wrapper = this.closest('.input-wrapper');
             if (wrapper) {
                 const icon = wrapper.querySelector('.input-icon i');
                 if (icon) {
                     icon.classList.add('icon-dancing');
-
-                    // Remove class after animation completes
-                    setTimeout(() => {
-                        icon.classList.remove('icon-dancing');
-                    }, 400);
+                    setTimeout(() => icon.classList.remove('icon-dancing'), 400);
                 }
             }
         });
 
-        // Also trigger on focus for extra flair
         input.addEventListener('focus', function() {
             const wrapper = this.closest('.input-wrapper');
             if (wrapper) {
                 const icon = wrapper.querySelector('.input-icon i');
-                if (icon) {
-                    icon.style.transform = 'scale(1.1)';
-                }
+                if (icon) icon.style.transform = 'scale(1.1)';
             }
         });
 
@@ -68,9 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const wrapper = this.closest('.input-wrapper');
             if (wrapper) {
                 const icon = wrapper.querySelector('.input-icon i');
-                if (icon) {
-                    icon.style.transform = 'scale(1)';
-                }
+                if (icon) icon.style.transform = 'scale(1)';
             }
         });
     });
@@ -80,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (dynamicSubtitle) {
         const phrases = [
-            "INITIALISATION DU SYSTÈME",
+            "DÉCOUVREZ D'AUTRES UNIVERS",
             "DÉPASSEZ VOS LIMITES",
             "REJOIGNEZ L'ÉLITE",
             "INVOQUEZ VOS ALLIÉS",
@@ -90,22 +70,17 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
 
         function changePhrase() {
-            // Fade out
             dynamicSubtitle.classList.remove('fade-in');
             dynamicSubtitle.classList.add('fade-out');
 
             setTimeout(() => {
-                // Change text
                 currentIndex = (currentIndex + 1) % phrases.length;
                 dynamicSubtitle.textContent = phrases[currentIndex];
-
-                // Fade in
                 dynamicSubtitle.classList.remove('fade-out');
                 dynamicSubtitle.classList.add('fade-in');
             }, 500);
         }
 
-        // Change phrase every 3 seconds
         setInterval(changePhrase, 3000);
     }
 
@@ -116,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         checkbox.addEventListener('change', function() {
             const customCheckbox = this.nextElementSibling;
             if (this.checked && customCheckbox) {
-                // Add extra animation on check
                 customCheckbox.style.transform = 'scale(1.2) rotate(5deg)';
                 setTimeout(() => {
                     customCheckbox.style.transform = 'scale(1) rotate(0deg)';
@@ -125,48 +99,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === 5. SUBMIT BUTTON PORTAL EFFECT ===
-    const submitButton = document.querySelector('.submit-button');
-
-    if (submitButton) {
-        submitButton.addEventListener('mouseenter', () => {
-            // Intensify portal animation on hover
-            const rings = submitButton.querySelectorAll('.portal-ring');
-            rings.forEach((ring, index) => {
-                const currentDuration = parseFloat(getComputedStyle(ring).animationDuration);
-                ring.style.animationDuration = (currentDuration * 0.7) + 's';
-            });
-        });
-
-        submitButton.addEventListener('mouseleave', () => {
-            // Reset portal animation speed
-            const ring1 = submitButton.querySelector('.ring-1');
-            const ring2 = submitButton.querySelector('.ring-2');
-            const ring3 = submitButton.querySelector('.ring-3');
-
-            if (ring1) ring1.style.animationDuration = '3s';
-            if (ring2) ring2.style.animationDuration = '2s';
-            if (ring3) ring3.style.animationDuration = '1.5s';
-        });
-    }
-
-    // === 6. ENHANCED FORM VALIDATION FEEDBACK ===
+    // === 5. ENHANCED FORM VALIDATION FEEDBACK ===
     const form = document.querySelector('.login-form');
 
     if (form) {
         form.addEventListener('submit', (e) => {
             const emailInput = form.querySelector('input[name="_username"]');
             const passwordInput = form.querySelector('input[name="_password"]');
-
             let isValid = true;
 
-            // Simple validation with visual feedback
             if (emailInput && !emailInput.value.includes('@')) {
                 isValid = false;
                 const wrapper = emailInput.closest('.input-wrapper');
                 wrapper.style.borderColor = '#ef4444';
                 wrapper.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.5)';
-
                 setTimeout(() => {
                     wrapper.style.borderColor = '';
                     wrapper.style.boxShadow = '';
@@ -178,39 +124,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 const wrapper = passwordInput.closest('.input-wrapper');
                 wrapper.style.borderColor = '#ef4444';
                 wrapper.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.5)';
-
                 setTimeout(() => {
                     wrapper.style.borderColor = '';
                     wrapper.style.boxShadow = '';
                 }, 2000);
             }
 
-            // If validation fails, prevent default
             if (!isValid) {
                 e.preventDefault();
-
-                // Shake the form
                 form.style.animation = 'shake 0.5s';
-                setTimeout(() => {
-                    form.style.animation = '';
-                }, 500);
+                setTimeout(() => form.style.animation = '', 500);
             }
         });
     }
 
-    // === 7. PARTICLE EFFECT ON FOCUS (Optional Enhancement) ===
+    // === 6. PARTICLE EFFECT ON FOCUS ===
     const createParticle = (x, y, color) => {
         const particle = document.createElement('div');
-        particle.style.position = 'fixed';
-        particle.style.left = x + 'px';
-        particle.style.top = y + 'px';
-        particle.style.width = '4px';
-        particle.style.height = '4px';
-        particle.style.borderRadius = '50%';
-        particle.style.background = color;
-        particle.style.pointerEvents = 'none';
-        particle.style.zIndex = '9999';
-        particle.style.boxShadow = `0 0 10px ${color}`;
+        particle.style.cssText = `
+            position: fixed;
+            left: ${x}px;
+            top: ${y}px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: ${color};
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 10px ${color};
+        `;
 
         document.body.appendChild(particle);
 
@@ -242,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
         animate();
     };
 
-    // Add particle effect on input focus
     inputs.forEach(input => {
         input.addEventListener('focus', function(e) {
             const rect = this.getBoundingClientRect();
@@ -261,12 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // === SHAKE ANIMATION ===
-const style = document.createElement('style');
-style.textContent = `
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
     @keyframes shake {
         0%, 100% { transform: translateX(0); }
         10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
         20%, 40%, 60%, 80% { transform: translateX(10px); }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(styleSheet);
